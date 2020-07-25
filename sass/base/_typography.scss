@@ -1,0 +1,27 @@
+//      TITLES
+
+.title{
+  &--main {
+    font-size: 3.5rem;
+    text-align: center;
+    color: $color-white
+  }
+
+  &--progress {
+    font-size: 1.5rem;
+    color: $color-white;
+    display: inline;
+  }
+
+  &--punch-card {
+    font-size: 1.5rem;
+    color: $color-white;
+    text-align: center;
+  }
+
+  &--records {
+    font-size: 1.5rem;
+    color: $color-white;
+    text-align: center;
+  }
+}
