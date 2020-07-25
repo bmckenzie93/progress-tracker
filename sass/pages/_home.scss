@@ -1,7 +1,43 @@
+//      HEADER
 #header {
   background-color: $color-primary--dark;
+
+  .navigation {
+    margin-bottom: 2rem;
+
+    &-ul {
+      background-color: $color-primary--dark;
+      display: flex;
+      justify-content: space-evenly;
+      width: 100%;
+    }
+
+    &-li {
+      padding: 1rem;
+      font-size: 1.1rem;
+      background-color: $color-primary--light;
+      min-width: 33.33%;
+      display: inline-block;
+      border-radius: 20px 20px 0 0;
+
+      &.current {
+        background-color: $color-primary;
+        color: $color-white;
+      }
+    }
+  }
 }
-#progress{
+
+//      PROGRESS BAR
+#progress {
   text-align: center;
+  font-size: 1.5rem;
   color: $color-white;
+  margin-bottom: 2rem;
+}
+
+//        PUNCH CARD
+#punch-card {
+  background-color: $color-gray--light;
+  padding: 2rem;
 }
