@@ -8,6 +8,10 @@ const UICtrl = (function(){
 
     clockInBtn: document.querySelector('#clock-in-btn'),
     clockOutBtn: document.querySelector('#clock-out-btn'),
+    
+    recordForm: document.querySelector('#record-form'),
+    clockInQuestions: document.querySelector('.clock-in-questions'),
+    clockOutQuestions: document.querySelector('.clock-out-questions'),
 
     startSessionBtn: document.querySelector('#start-session-btn'),
     submitSessionBtn: document.querySelector('#submit-session-btn'),
@@ -30,6 +34,20 @@ const UICtrl = (function(){
   return {
     getDOMSelectors: function(){
       return DOMSelectors;
+    },
+    populateRecords: function(records){
+      let html = '';
+
+      records.forEach(record => {
+        html += `<li class="record" id="record-${record.id}">
+        <div class="record-info">
+          <span class="record-date">${record.date}</span> <span class="record-time-in">${record.timeIn}</span> - <span class="record-time-out">${record.timeOut}</span> *<span class="record-hours">${record.hours}</span> Hrs
+        </div>  
+        <button class="view-record btn-text">View Record</button>
+      </li>`
+      });
+
+      DOMSelectors.recordList.innerHTML = html;
     }
   }
 })();
@@ -41,9 +59,36 @@ const UICtrl = (function(){
 const RecordCtrl = (function(){
   const data = {
     records: [
-      {id: 1, date: '7/25/20', timeIn: '11:00am', timeOut: '7:00pm', hours: 8},
-      {id: 2, date: '7/23/20', timeIn: '12:00am', timeOut: '8:00pm', hours: 8},
-      {id: 3, date: '7/21/20', timeIn: '10:00am', timeOut: '6:00pm', hours: 8}
+      {
+        id: 1,
+        date: '7/25/20', 
+        timeIn: '11:00am', 
+        timeOut: '7:00pm', 
+        hours: 8,
+        sessionGoals: 'session goal here...',
+        sessionAccomplishments: 'session accomplishments here...',
+        nextSessionGoals: 'next session goals here...'
+      },
+      {
+        id: 2, 
+        date: '7/23/20', 
+        timeIn: '12:00am', 
+        timeOut: '8:00pm', 
+        hours: 8,
+        sessionGoals: 'session goal here...',
+        sessionAccomplishments: 'session accomplishments here...',
+        nextSessionGoals: 'next session goals here...'
+      },
+      {
+        id: 3, 
+        date: '7/21/20', 
+        timeIn: '10:00am', 
+        timeOut: '6:00pm', 
+        hours: 8,
+        sessionGoals: 'session goal here...',
+        sessionAccomplishments: 'session accomplishments here...',
+        nextSessionGoals: 'next session goals here...'
+      }
     ],
   currentRecord: null,
   }
@@ -58,6 +103,9 @@ const RecordCtrl = (function(){
     getCurrentRecord: function(){
       return data.currentRecord;
     },
+    addRecordToData: function(record){
+      data.records.push(record);
+    }
   }
 })();
 
@@ -70,15 +118,41 @@ const RecordCtrl = (function(){
       const selectors = UICtrl.getDOMSelectors();
 
       selectors.clockInBtn.addEventListener('click', clockInEvent);
+      selectors.startSessionBtn.addEventListener('click', startSessionEvent);
     }
 
-    const clockInEvent = function() {
-      console.log('clock in event fired');
+    const clockInEvent = function(e) {
+      //show form - hide clock out questions
+      const selectors = UICtrl.getDOMSelectors();
+      selectors.clockOutQuestions.style.display = 'none';
+      selectors.recordForm.style.transform = 'translateX(0%)';
+
+      e.preventDefault();
+    }
+
+    const startSessionEvent = function(e){
+      //store value, start timer, slide out form
+      const selectors = UICtrl.getDOMSelectors();
+      if(selectors.sessionGoals.value !== '') {
+        const sessionGoal = selectors.sessionGoals.value;
+        UICtrl.data.currentRecord.sessionGoal = sessionGoal;
+        selectors.recordForm.style.transform = 'translateX(200%)';
+
+        e.preventDefault();
+      } else {
+        alert('please make a goal for this session')
+        e.preventDefault();
+      }
     }
 
     return {
       init: function() {
         loadEventListners();
+        
+        // populate record list
+        const records = RecordCtrl.getRecords();
+        UICtrl.populateRecords(records);
+
       }
     }
   })(UICtrl, RecordCtrl);
