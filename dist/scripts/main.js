@@ -1,11 +1,3 @@
-// RECORD CONTROLLER
-
-const RecordCtrl = (function(){
-  
-})();
-
-
-
 // UI CONTROLLER
 
 const UICtrl = (function(){
@@ -44,8 +36,51 @@ const UICtrl = (function(){
 
 
 
+// RECORD CONTROLLER
+
+const RecordCtrl = (function(){
+  const data = {
+    records: [
+      {id: 1, date: '7/25/20', timeIn: '11:00am', timeOut: '7:00pm', hours: 8},
+      {id: 2, date: '7/23/20', timeIn: '12:00am', timeOut: '8:00pm', hours: 8},
+      {id: 3, date: '7/21/20', timeIn: '10:00am', timeOut: '6:00pm', hours: 8}
+    ],
+  currentRecord: null,
+  }
+
+  return {
+    logData: function(){
+      return data;
+    },
+    getRecords: function(){
+      return data.records;
+    },
+    getCurrentRecord: function(){
+      return data.currentRecord;
+    },
+  }
+})();
+
+
+
 
 // APP CONTROLLER
   const App = (function(UICtrl, RecordCtrl){
-  
+    const loadEventListners = function(){
+      const selectors = UICtrl.getDOMSelectors();
+
+      selectors.clockInBtn.addEventListener('click', clockInEvent);
+    }
+
+    const clockInEvent = function() {
+      console.log('clock in event fired');
+    }
+
+    return {
+      init: function() {
+        loadEventListners();
+      }
+    }
   })(UICtrl, RecordCtrl);
+
+  App.init();
