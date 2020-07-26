@@ -19,6 +19,7 @@
       min-width: 33.33%;
       display: inline-block;
       border-radius: 20px 20px 0 0;
+      border-right: 1px solid $color-primary--dark;
 
       &.current {
         background-color: $color-primary;
@@ -40,4 +41,11 @@
 #punch-card {
   background-color: $color-gray--light;
   padding: 2rem;
+
+  .time-stamp-buttons {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
 }

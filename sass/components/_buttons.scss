@@ -1,0 +1,26 @@
+.btn {
+  cursor: pointer;
+  padding: 1rem 0;
+  width: 33%;
+  display: inline-block;
+  margin: 0 auto;
+
+  &-block {
+    @extend .btn;
+    width: 100%;
+    display: block;
+  }
+
+  &-primary {
+    @extend .btn;
+    background-color: $color-primary;
+    color: $color-white;
+    font-size: 1.2rem;
+
+    &:disabled {
+      background-color: $color-gray;
+    }
+
+
+  }
+}

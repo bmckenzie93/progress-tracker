@@ -17,7 +17,7 @@
 
   &--punch-card {
     font-size: 1.5rem;
-    color: $color-black;
+    color: $color-gray--dark;
     text-align: center;
     margin-bottom: 2rem;
   }
@@ -26,5 +26,9 @@
     font-size: 1.5rem;
     color: $color-white;
     text-align: center;
+  }
+
+  &--questions {
+    font-size: 2rem;
   }
 }

@@ -35,30 +35,38 @@
     <!-- Punch Card -->
     <section id="punch-card">
       <h3 class="title--punch-card">-Punch Card-</h3>
-      <button class="btn btn-primary">Clock In</button>
-      <button class="btn btn-primary">Clock Out</button>
-
-      <!-- Punch Card Form -->
-      <form class="punch-card-form">
-        <div class="clock-in-questions">
-          <form-group>
-            <label for="QA-1">What do you want to accomplish this session?</label>
-            <input type="text" id="QA-1" placeholder="Session Goals">
-          </form-group>
-        </div>
-
-        <div class="clock-out-questions">
-          <form-group>
-            <label for="QA-2">What did you accomplish this session?</label>
-            <input type="text" id="QA-2" placeholder="Session Accomplishments">
-          </form-group>
-          <form-group>
-            <label for="QA-3">What can you accomplish next session?</label>
-            <input type="text" id="QA-3" placeholder="Next Session Goals">
-          </form-group>
-        </div>
-      </form>
+      <div class="time-stamp-buttons">
+        <button class="btn btn-primary">Clock In</button>
+        <button class="btn btn-primary" disabled>Clock Out</button>
+      </div>
     </section>
+
+      <!-- Record Form -->
+      <form id="record-form" class="record-form">
+        <div class="record-form-questions clock-in-questions">
+          <div class="record-form-group">
+            <label for="QA-1" class="title--questions">What do you want to accomplish this session?</label>
+            <textarea id="QA-1" placeholder="This session I will ..." ></textarea>
+          </div>
+          <div class="record-form-group">
+            <button class="btn-block btn-primary">Start Session</button>
+          </div>
+        </div>
+        
+        <!-- <div class="record-form-questions clock-out-questions">
+          <div class="record-form-group">
+            <label for="QA-2" class="title--questions">What did you accomplish this session?</label>
+            <textarea id="QA-2" placeholder="This session I ..."></textarea>
+          </div>
+          <div class="record-form-group">
+            <label for="QA-3" class="title--questions">What can you accomplish next session?</label>
+            <textarea id="QA-3" placeholder="Next session I want to ..."></textarea>
+          </div>
+          <div class="record-form-group">
+            <button class="btn-block btn-primary">Submit Session</button>
+          </div>
+        </div> -->
+      </form>
 
     <!-- Session Records -->
     <section id="session-records">
