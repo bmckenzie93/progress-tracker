@@ -36,8 +36,8 @@
     <section id="punch-card">
       <h3 class="title--punch-card">-Punch Card-</h3>
       <div class="time-stamp-buttons">
-        <button class="btn btn-primary">Clock In</button>
-        <button class="btn btn-primary" disabled>Clock Out</button>
+        <button class="btn btn-primary" id="clock-in-btn">Clock In</button>
+        <button class="btn btn-primary" id="clock-out-btn" disabled>Clock Out</button>
       </div>
     </section>
 
@@ -45,25 +45,25 @@
       <!-- <form id="record-form" class="record-form">
         <div class="record-form-questions clock-in-questions">
           <div class="record-form-group">
-            <label for="QA-1" class="title--questions">What do you want to accomplish this session?</label>
-            <textarea id="QA-1" placeholder="This session I will ..." ></textarea>
+            <label for="session-goals" class="title--questions">What do you want to accomplish this session?</label>
+            <textarea id="session-goals" placeholder="This session I will ..." ></textarea>
           </div>
           <div class="record-form-group">
-            <button class="btn-block btn-primary">Start Session</button>
+            <button class="btn-block btn-primary" id="start-session-btn">Start Session</button>
           </div>
         </div>
         
         <div class="record-form-questions clock-out-questions">
           <div class="record-form-group">
-            <label for="QA-2" class="title--questions">What did you accomplish this session?</label>
-            <textarea id="QA-2" placeholder="This session I ..."></textarea>
+            <label for="session-accomplishments" class="title--questions">What did you accomplish this session?</label>
+            <textarea id="session-accomplishments" placeholder="This session I ..."></textarea>
           </div>
           <div class="record-form-group">
-            <label for="QA-3" class="title--questions">What can you accomplish next session?</label>
-            <textarea id="QA-3" placeholder="Next session I want to ..."></textarea>
+            <label for="next-session-goals" class="title--questions">What can you accomplish next session?</label>
+            <textarea id="next-session-goals" placeholder="Next session I want to ..."></textarea>
           </div>
           <div class="record-form-group">
-            <button class="btn-block btn-primary">Submit Session</button>
+            <button class="btn-block btn-primary" id="submit-session-btn">Submit Session</button>
           </div>
         </div>
       </form> -->
@@ -77,20 +77,18 @@
             <div class="record-info">
               <span class="record-date">7/25/20</span> <span class="record-time-in">11:00am</span> - <span class="record-time-out">7:00pm</span> *<span class="record-hours">8</span> Hrs
             </div>  
-            <a href="#current-record" class="record-link">View Record</a>
+            <button class="view-record btn-text">View Record</button>
           </li>
           <li class="record" id="record-2">
             <div class="record-info">
               <span class="record-date">7/25/20</span> <span class="record-time-in">11:00am</span> - <span class="record-time-out">7:00pm</span> *<span class="record-hours">8</span> Hrs
             </div>  
-            <a href="#current-record" class="record-link">View Record</a>
-          </li>
+            <button class="view-record btn-text">View Record</button>          </li>
           <li class="record" id="record-3">
             <div class="record-info">
               <span class="record-date">7/25/20</span> <span class="record-time-in">11:00am</span> - <span class="record-time-out">7:00pm</span> *<span class="record-hours">8</span> Hrs
             </div>  
-            <a href="#current-record" class="record-link">View Record</a>
-          </li>
+            <button class="view-record-btn btn-text">View Record</button>          </li>
         </ul>
       </div>
     </section>
@@ -101,11 +99,9 @@
         <div>Session Date: <span class="current-record-date">7/25/20</span></div>
         <div>Time In: <span class="current-record-time-in">11:00am</span> </div>
         <div>Time Out: <span class="current-record-time-out">7:00pm</span></div>
-        <div>Total Hours: <span class="current-record-hours">8</span> Hrs</div>
+        <div>Total Hours: <span class="current-record-total-hours">8</span> Hrs</div>
       </div>
     </section>
-
-
   </main>
 
   <script src="./scripts/main.js"></script> 
