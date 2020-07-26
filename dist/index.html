@@ -42,7 +42,7 @@
     </section>
 
       <!-- Record Form -->
-      <form id="record-form" class="record-form">
+      <!-- <form id="record-form" class="record-form">
         <div class="record-form-questions clock-in-questions">
           <div class="record-form-group">
             <label for="QA-1" class="title--questions">What do you want to accomplish this session?</label>
@@ -53,7 +53,7 @@
           </div>
         </div>
         
-        <!-- <div class="record-form-questions clock-out-questions">
+        <div class="record-form-questions clock-out-questions">
           <div class="record-form-group">
             <label for="QA-2" class="title--questions">What did you accomplish this session?</label>
             <textarea id="QA-2" placeholder="This session I ..."></textarea>
@@ -65,20 +65,35 @@
           <div class="record-form-group">
             <button class="btn-block btn-primary">Submit Session</button>
           </div>
-        </div> -->
-      </form>
+        </div>
+      </form> -->
 
     <!-- Session Records -->
     <section id="session-records">
       <h3 class="title--records">-Session Records-</h3>
       <div class="records">
         <ul class="record-list">
-          <li class="record" id="record-1"><a href="#current-record" class="record-link"><span class="record-date">7/25/20</span> <span class="record-time-in">11:00am</span> - <span class="record-time-out">7:00pm</span> *<span class="record-hours">8</span> Hrs</a></li>
-          <li class="record" id="record-2"><a href="#current-record" class="record-link"><span class="record-date">7/23/20</span> <span class="record-time-in">12:00am</span> - <span class="record-time-out">8:00pm</span> *<span class="record-hours">8</span> Hrs</a></li>
-          <li class="record" id="record-3"><a href="#current-record" class="record-link"><span class="record-date">7/21/20</span> <span class="record-time-in">1:00pm</span> - <span class="record-time-out">9:00pm</span> *<span class="record-hours">8</span> Hrs</a></li>
+          <li class="record" id="record-1">
+            <div class="record-info">
+              <span class="record-date">7/25/20</span> <span class="record-time-in">11:00am</span> - <span class="record-time-out">7:00pm</span> *<span class="record-hours">8</span> Hrs
+            </div>  
+            <a href="#current-record" class="record-link">View Record</a>
+          </li>
+          <li class="record" id="record-2">
+            <div class="record-info">
+              <span class="record-date">7/25/20</span> <span class="record-time-in">11:00am</span> - <span class="record-time-out">7:00pm</span> *<span class="record-hours">8</span> Hrs
+            </div>  
+            <a href="#current-record" class="record-link">View Record</a>
+          </li>
+          <li class="record" id="record-3">
+            <div class="record-info">
+              <span class="record-date">7/25/20</span> <span class="record-time-in">11:00am</span> - <span class="record-time-out">7:00pm</span> *<span class="record-hours">8</span> Hrs
+            </div>  
+            <a href="#current-record" class="record-link">View Record</a>
+          </li>
         </ul>
       </div>
-      <div class="current-record">
+      <div id="current-record">
         <span class="current-record-date">7/25/20</span> <span class="current-record-time-in">11:00am</span> - <span class="current-record-time-out">7:00pm</span> *<span class="current-record-hours">8</span> Hrs
       </div>
     </section>

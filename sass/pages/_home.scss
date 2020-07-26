@@ -49,3 +49,24 @@
     margin-bottom: 2rem;
   }
 }
+
+//      SESSION RECORDS
+#session-records {
+  padding: 2rem;
+
+  // .record-list {
+    
+  // }
+  
+  .record {
+    display: flex;
+    justify-content: space-between;
+    background-color: $color-gray--light;
+    padding: 1rem;
+    margin-bottom: .5rem; 
+
+    &-info {
+      display: inline;
+    }
+  }
+}
