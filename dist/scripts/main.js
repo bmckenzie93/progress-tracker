@@ -48,7 +48,10 @@ const UICtrl = (function(){
       });
 
       DOMSelectors.recordList.innerHTML = html;
-    }
+    },
+    showTotalHours: function(hours){
+      DOMSelectors.totalHours.textContent = hours;
+    },
   }
 })();
 
@@ -90,10 +93,14 @@ const RecordCtrl = (function(){
         nextSessionGoals: 'next session goals here...'
       }
     ],
-  currentRecord: null,
+  currentRecord: {},
+  totalHours: 0
   }
 
   return {
+    addRecordToData: function(record){
+      data.records.push(record);
+    },
     logData: function(){
       return data;
     },
@@ -103,9 +110,45 @@ const RecordCtrl = (function(){
     getCurrentRecord: function(){
       return data.currentRecord;
     },
-    addRecordToData: function(record){
-      data.records.push(record);
-    }
+    getCurrentRecordTimeIn: function(){
+      return data.currentRecord.timeIn;
+    },
+    getTotalHours: function(){
+      let totalHours = 0;
+
+      data.records.forEach(record => {
+        const hours = record.hours;
+        totalHours += hours;
+      })
+      //set data structures total hours
+      data.totalHours = totalHours;
+
+      return data.totalHours;
+    },
+    setCurrentSessionDate: function(date){
+      data.currentRecord.date = date.toDateString();
+    },
+    setCurrentSessionTimeIn: function(date){
+      data.currentRecord.timeIn = date.getTime();
+    },
+    setCurrentSessionTimeOut: function(date){
+      data.currentRecord.timeOut = date.getTime();
+    },
+    setCurrentSessionHours: function(miliseconds){
+      data.currentRecord.hours = miliseconds;
+      //
+      //      CONVERT THE MILISECONDS TO HOURS NEXT
+      //
+    },
+    setCurrentSessionGoals: function(text){
+      data.currentRecord.sessionGoals = text;
+    },
+    setCurrentSessionAccomplishments: function(text){
+      data.currentRecord.sessionAccomplishments = text;
+    },
+    setCurrentNextSessionGoals: function(text){
+      data.currentRecord.nextSessionGoals = text;
+    },
   }
 })();
 
@@ -119,6 +162,8 @@ const RecordCtrl = (function(){
 
       selectors.clockInBtn.addEventListener('click', clockInEvent);
       selectors.startSessionBtn.addEventListener('click', startSessionEvent);
+      selectors.clockOutBtn.addEventListener('click', clockOutEvent);
+      selectors.submitSessionBtn.addEventListener('click', submitSessionEvent);
     }
 
     const clockInEvent = function(e) {
@@ -131,28 +176,85 @@ const RecordCtrl = (function(){
     }
 
     const startSessionEvent = function(e){
-      //store value, start timer, slide out form
       const selectors = UICtrl.getDOMSelectors();
       if(selectors.sessionGoals.value !== '') {
-        const sessionGoal = selectors.sessionGoals.value;
-        UICtrl.data.currentRecord.sessionGoal = sessionGoal;
+        // store session goal in data structure
+        const sessionGoals = selectors.sessionGoals.value;
+        RecordCtrl.setCurrentSessionGoals(sessionGoals);
+        // store time in / date in data structure
+        const date = new Date();
+        RecordCtrl.setCurrentSessionTimeIn(date);
+        RecordCtrl.setCurrentSessionDate(date);
+        // slide form off screen
         selectors.recordForm.style.transform = 'translateX(200%)';
+        // disable clock in btn
+        selectors.clockInBtn.disabled = true;
+        // enable clock out btn.
+        selectors.clockOutBtn.disabled = false;
 
         e.preventDefault();
       } else {
         alert('please make a goal for this session')
         e.preventDefault();
       }
+    };
+
+    const clockOutEvent = function(e){
+      const selectors = UICtrl.getDOMSelectors();
+      // Show clock out questions, hide clock in questions
+      selectors.clockInQuestions.style.display = 'none';
+      selectors.clockOutQuestions.style.display = 'block';
+      // Slide form in
+      selectors.recordForm.style.transform = 'translateX(0%)';
+
+      e.preventDefault();
     }
+
+    const submitSessionEvent = function(e){
+      const selectors = UICtrl.getDOMSelectors();
+      if(selectors.sessionAccomplishments.value !== '' && selectors.nextSessionGoals.value !== ''){
+        // Store answers to the clock out questions
+        const sessionAccomplishments = selectors.sessionAccomplishments.value;
+        RecordCtrl.setCurrentSessionAccomplishments(sessionAccomplishments);
+        const nextSessionGoals = selectors.nextSessionGoals.value;
+        RecordCtrl.setCurrentNextSessionGoals(nextSessionGoals);
+        //store time out in data structure
+        const timeOut = new Date();
+        RecordCtrl.setCurrentSessionTimeOut(timeOut);
+        // store hours in data structure
+        const timeIn = RecordCtrl.getCurrentRecordTimeIn();
+        const hours = timeOut - timeIn;
+
+        //enable buttons / set initial state
+        selectors.clockInQuestions.style.display = 'block';
+        selectors.clockOutQuestions.style.display = 'none';
+        // slide out form
+        selectors.recordForm.style.transform = 'translateX(-200%)';
+        //hours
+        //id
+        //add record to list
+        //update total hours
+        console.log(RecordCtrl.getCurrentRecord());
+        e.preventDefault();
+      } else {
+        alert('Please record accomplishments from this session AND goals for next session.')
+        e.preventDefault();
+      }
+    }
+
 
     return {
       init: function() {
+        // load event listners
         loadEventListners();
         
         // populate record list
         const records = RecordCtrl.getRecords();
         UICtrl.populateRecords(records);
 
+        // show total hours
+        const totalHours = RecordCtrl.getTotalHours();
+        UICtrl.showTotalHours(totalHours);
       }
     }
   })(UICtrl, RecordCtrl);
