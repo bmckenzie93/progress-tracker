@@ -3,7 +3,7 @@
 const UICtrl = (function(){
   // DOM Selectors
   const DOMSelectors = {
-    totalHours: document.querySelector('#total-hours'),
+    totalHoursHours: document.querySelector('#total-hours'),
     totalGoal: document.querySelector('#total-goal'),
 
     clockInBtn: document.querySelector('#clock-in-btn'),
@@ -57,17 +57,18 @@ const UICtrl = (function(){
 
       records.forEach(record => {
         html += `<li class="record" id="record-${record.id}">
-        <div class="record-info">
-          <span class="record-date">${record.date}</span> <span class="record-time-in">${record.timeIn}</span> - <span class="record-time-out">${record.timeOut}</span> *<span class="record-hours">${record.hours}</span> Hrs
-        </div>  
-        <button class="view-record btn-text">View Record</button>
-      </li>`
+                  <div class="record-info">
+                    <span class="record-date">${record.date}</span> ~ <span class="record-time-in">${record.timeIn[0]}</span> - <span class="record-time-out">${record.timeOut[0]}</span> <span class="record-hours">${record.hours.hrs}</span> hours <span class="record-hours">${record.hours.min}</span> minutes <span class="record-hours">${record.hours.sec}</span> seconds
+                  </div>  
+                  <button class="view-record btn-text">View Record</button>
+                </li>`
       });
 
       DOMSelectors.recordList.innerHTML = html;
     },
     showTotalHours: function(hours){
-      DOMSelectors.totalHours.textContent = hours;
+      DOMSelectors.totalHoursHours.textContent = hours;
+
     },
   }
 })();
@@ -77,12 +78,12 @@ const UICtrl = (function(){
 // RECORD CONTROLLER
 
 const RecordCtrl = (function(){
-  function Record( date, timeIn, timeOut, sessionGoals, sessionAccomplishments, nextSessionGoals ){
+  function Record( date, timeIn, timeOut, hours, sessionGoals, sessionAccomplishments, nextSessionGoals ){
     //this.id = id;
     this.date = date;
     this.timeIn = timeIn;
     this.timeOut = timeOut;
-    //this.hours = hours;
+    this.hours = hours;
     this.sessionGoals = sessionGoals;
     this.sessionAccomplishments = sessionAccomplishments;
     this.nextSessionGoals = nextSessionGoals;
@@ -92,9 +93,13 @@ const RecordCtrl = (function(){
       {
         id: 1,
         date: '7/25/20', 
-        timeIn: '11:00am', 
-        timeOut: '7:00pm', 
-        hours: 8,
+        timeIn: ['11:00am', 0], 
+        timeOut: ['7:00pm', 0], 
+        hours: {
+          sec: 00,
+          min: 00,
+          hrs: 08
+        },
         sessionGoals: 'session goal here...',
         sessionAccomplishments: 'session accomplishments here...',
         nextSessionGoals: 'next session goals here...'
@@ -120,8 +125,12 @@ const RecordCtrl = (function(){
       //   nextSessionGoals: 'next session goals here...'
       // }
     ],
-  currentRecord: {},
-  totalHours: 0
+    currentRecord: {},
+    totalHours: {
+      sec: 0,
+      min: 0,
+      hrs: 0
+    }
   }
 
   return {
@@ -134,14 +143,16 @@ const RecordCtrl = (function(){
     getTotalHours: function(){
       let totalHours = 0;
 
+      // add hours of each record
       data.records.forEach(record => {
-        const hours = record.hours;
+        const hours = record.hours.hrs;
         totalHours += hours;
       })
-      //set data structures total hours
-      data.totalHours = totalHours;
 
-      return data.totalHours;
+      //set data structures total hours
+      data.totalHours.hrs = totalHours;
+
+      return data.totalHours.hrs;
     },
     getRecords: function(){
       return data.records;
@@ -156,28 +167,33 @@ const RecordCtrl = (function(){
       data.currentRecord.date = date.toLocaleDateString();
     },
     setCurrentSessionTimeIn: function(date){
+      // time in seconds
+      const timeIn = Math.floor(date.getTime() / 1000);
       // format time
       let time = date.toLocaleTimeString();
       let re = /:[0-9][0-9] /;
       const formatedTime = time.replace(re, '');
 
       // set current record time in
-      data.currentRecord.timeIn = formatedTime;
+      data.currentRecord.timeIn = [formatedTime, timeIn];
     },
     setCurrentSessionTimeOut: function(date){
+      const timeOut = Math.floor(date.getTime() / 1000);
       // format time
       let time = date.toLocaleTimeString();
       let re = /:[0-9][0-9] /;
       const formatedTime = time.replace(re, '');
       
-      // set current record time in
-      data.currentRecord.timeOut = formatedTime;
+      // set current record time out
+      data.currentRecord.timeOut = [formatedTime, timeOut];
     },
-    setCurrentSessionHours: function(miliseconds){
-      data.currentRecord.hours = miliseconds;
-      //
-      //      CONVERT THE MILISECONDS TO HOURS NEXT
-      //
+    setCurrentSessionHours: function(hrs, min, sec){
+      data.currentRecord.hours = {
+        // convert seconds
+        hrs: hrs,
+        min: min,
+        sec: sec,
+      }
     },
     setCurrentSessionGoals: function(text){
       data.currentRecord.sessionGoals = text;
@@ -194,17 +210,15 @@ const RecordCtrl = (function(){
       let date,
           timeIn,
           timeOut,
+          hours,
           sessionGoals,
           sessionAccomplishments,
           nextSessionGoals;
-      [date, timeIn, timeOut, sessionGoals, sessionAccomplishments, nextSessionGoals] = [record.date, record.timeIn, record.timeOut, record.sessionGoals, record.sessionAccomplishments, record.nextSessionGoals];
+      [date, timeIn, timeOut, hours, sessionGoals, sessionAccomplishments, nextSessionGoals] = [record.date, record.timeIn, record.timeOut, record.hours, record.sessionGoals, record.sessionAccomplishments, record.nextSessionGoals];
 
-      record = new Record( date, timeIn, timeOut, sessionGoals, sessionAccomplishments, nextSessionGoals );
-
-      console.log(record);
+      record = new Record( date, timeIn, timeOut, hours, sessionGoals, sessionAccomplishments, nextSessionGoals );
 
       data.records.push(record);
-      console.log(data.records);
     },
     clearCurrentRecord: function(){
       data.records.currentRecord = {};
@@ -226,6 +240,7 @@ const RecordCtrl = (function(){
       selectors.submitSessionBtn.addEventListener('click', submitSessionEvent);
     }
 
+    //  CLOCK IN
     const clockInEvent = function(e) {
       //show form - hide clock out questions
       const selectors = UICtrl.getDOMSelectors();
@@ -235,16 +250,19 @@ const RecordCtrl = (function(){
       e.preventDefault();
     }
 
+    //  START SESSION
     const startSessionEvent = function(e){
       const selectors = UICtrl.getDOMSelectors();
       if(selectors.sessionGoals.value !== '') {
         // store session goal in data structure
         const sessionGoals = selectors.sessionGoals.value;
         RecordCtrl.setCurrentSessionGoals(sessionGoals);
-        // store time in / date in data structure
+
+        // store date & time in data structure
         const date = new Date();
         RecordCtrl.setCurrentSessionTimeIn(date);
         RecordCtrl.setCurrentSessionDate(date);
+
         // slide form off screen
         selectors.recordForm.style.transform = 'translateX(200%)';
         // disable clock in btn
@@ -259,6 +277,8 @@ const RecordCtrl = (function(){
       }
     };
 
+
+    //  CLOCK OUT
     const clockOutEvent = function(e){
       const selectors = UICtrl.getDOMSelectors();
       // Show clock out questions, hide clock in questions
@@ -270,6 +290,7 @@ const RecordCtrl = (function(){
       e.preventDefault();
     }
 
+    // SUBMIT SESSION
     const submitSessionEvent = function(e){
       const selectors = UICtrl.getDOMSelectors();
       if(selectors.sessionAccomplishments.value !== '' && selectors.nextSessionGoals.value !== ''){
@@ -283,21 +304,31 @@ const RecordCtrl = (function(){
         const timeOut = new Date();
         RecordCtrl.setCurrentSessionTimeOut(timeOut);
 
-        // store hours in data structure
-        const timeIn = RecordCtrl.getCurrentRecordTimeIn();
-        const hours = timeOut - timeIn;
-
+        // store session total hours in data structure
+        const timeIn = RecordCtrl.getCurrentRecordTimeIn()[1];
+        const diff = timeOut - timeIn; // diff in seconds between now and start
+        let sec = Math.floor(diff % 60); // get seconds value (remainder of diff)
+        let min = Math.floor(diff / 60); // get minutes value (quotient of diff)
+        let hrs = Math.floor(min / 60); // get minutes value (quotient of min)
+        // hrs = checkTime(hrs); // add a leading zero if it's single digit
+        // min = checkTime(min); // add a leading zero if it's single digit
+        // sec = checkTime(sec); // add a leading zero if it's single digit
+        RecordCtrl.setCurrentSessionHours(hrs, min, sec);
+        //id
 
         // slide out form
         selectors.recordForm.style.transform = 'translateX(-200%)';
-        //hours
-        //id
+
         //add record to list
         RecordCtrl.submitCurrentRecord();
-                //set initial state
-                App.init();
+
+        //set initial state
+        App.init();
+        
         //update total hours
-        console.log(RecordCtrl.getCurrentRecord());
+        const hours = RecordCtrl.getTotalHours();
+        UICtrl.showTotalHours(hours);
+
         e.preventDefault();
       } else {
         alert('Please record accomplishments from this session AND goals for next session.')
@@ -310,9 +341,6 @@ const RecordCtrl = (function(){
       init: function() {
         //testing
         
-
-
-
         // load event listners
         loadEventListners();
 
