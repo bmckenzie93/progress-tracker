@@ -294,6 +294,11 @@ const RecordCtrl = (function(){
         // show current session
         UICtrl.showCurrentSession();
 
+        // start elapsed time
+        let miliseconds = new Date() - date;
+        console.log(miliseconds / 1000 + ' seconds')
+        // https://www.youtube.com/watch?v=fF-vtP3sjPc // stopwatch videos // https://www.youtube.com/watch?v=1INmsFnD-u4
+
         e.preventDefault();
       } else {
         alert('please make a goal for this session')
