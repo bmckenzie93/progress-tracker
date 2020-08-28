@@ -16,6 +16,11 @@ const UICtrl = (function(){
     startSessionBtn: document.querySelector('#start-session-btn'),
     submitSessionBtn: document.querySelector('#submit-session-btn'),
 
+    currentSession: document.querySelector('#current-session'),
+    currentSessionDate: document.querySelector('#current-session-date'),
+    currentSessionTimeIn: document.querySelector('.current-session-time-in'),
+    currentSessionElapsedTime: document.querySelector('#current-session-elapsed-time'),
+
     sessionGoals: document.querySelector('#session-goals'),
     sessionAccomplishments: document.querySelector('#session-accomplishments'),
     nextSessionGoals: document.querySelector('#next-session-goals'),
@@ -48,6 +53,9 @@ const UICtrl = (function(){
       DOMSelectors.sessionGoals.value = '';
       DOMSelectors.sessionAccomplishments.value = '';
       DOMSelectors.nextSessionGoals.value = '';
+
+      // Hide current session
+      UICtrl.hideCurrentSession();
     },
     getDOMSelectors: function(){
       return DOMSelectors;
@@ -72,6 +80,12 @@ const UICtrl = (function(){
     showTotalHours: function(hours){
       DOMSelectors.totalHoursHours.textContent = hours;
 
+    },
+    hideCurrentSession: function(){
+      DOMSelectors.currentSession.style.display = 'none';
+    },
+    showCurrentSession: function(){
+      DOMSelectors.currentSession.style.display = 'block';
     },
   }
 })();
@@ -276,6 +290,9 @@ const RecordCtrl = (function(){
         selectors.clockInBtn.disabled = true;
         // enable clock out btn.
         selectors.clockOutBtn.disabled = false;
+
+        // show current session
+        UICtrl.showCurrentSession();
 
         e.preventDefault();
       } else {
