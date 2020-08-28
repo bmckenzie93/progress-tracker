@@ -31,7 +31,28 @@
 
 //      CURRENT SESSION
 #current-session {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly; 
+  color: $color-white;
   text-align: center;
+  background-color: #333; 
+  min-height: 30rem;
+  border: 1rem solid $color-gray--light;
+
+  h2 {
+    background-color: $color-primary--light;
+    color: black;
+    margin: 0 2rem;
+    border-radius: 30px;
+    font-size: 2rem;
+    line-height: 2;
+    letter-spacing: .5rem;
+  }
+
+  &-elapsed-time {
+    font-size: 5rem;
+  }
 }
 
 

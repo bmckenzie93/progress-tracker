@@ -85,7 +85,7 @@ const UICtrl = (function(){
       DOMSelectors.currentSession.style.display = 'none';
     },
     showCurrentSession: function(){
-      DOMSelectors.currentSession.style.display = 'block';
+      DOMSelectors.currentSession.style.display = 'flex';
     },
   }
 })();
